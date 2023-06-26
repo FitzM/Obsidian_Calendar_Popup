@@ -1,8 +1,15 @@
-/*
+.my-modal{
+  z-index: 999;
+  font-size: 42;
+  height: 250px;
+}
+#popupView{
+    height: 45px;
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0.5); /* Example overlay color with transparency */
+    z-index: 9999;
+    position: fixed;
+  top: 50vh;
+  left: 50vw;
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
-
-If your plugin does not need CSS, delete this file.
-
-*/
+};

@@ -1,95 +1,63 @@
-# Obsidian Sample Plugin
+# Overview of the Plugin Design
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+# Version 1 :
+  ## Functionality
 
-This project uses Typescript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in Typescript Definition format, which contains TSDoc comments describing what it does.
+  ### This will allow you to schedule a "time block" or Parent event on your calendar. 
+  - Within that timeblock there will be additional tasks that you have assigned to that parent
+- 
+  - Undetermined yet if this will be a filter of some sort or only look for children tasks. Maybe a choice? ie. "Search for all tasks in this list that have #Work"
 
-**Note:** The Obsidian API is still in early alpha and is subject to change at any time!
+  - Sub catagories or "mini-blocks" can be repeated and reset. i.e. a Daily set of routines you preform. (Brush hair, brush teeth, feed dogs, pack lunch)
+  - Parent Events can be scheduled multiple times but all parent events identify the same "mini-block" list so that when you're in a new time block the previous items that were checked off are still checked off. 
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
 
-## First time developing plugins?
+  ### Must Have Features
+  - Drag and drop functionality
+  - Event resize
+  - drag events from a side panel into the day
+  - 
+  ## Existing plugins I'm going to use
+  ### Dataview
+  ### Obsidian-FullCalendar
+  ### TickTick Task sync
+  ### Gcal Sync
 
-Quick starting guide for new plugin devs:
+  ## Design of How I think it should function
+  ## Notes about how the features will be implemented
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+  ### Timeblocks and Mini-blocks
+  - Timeblock will be a note or node or "entity" on it's own. When it's clicked it points to anther note or node or "entity" that is defined as the child node.
+  - 
 
-## Releasing new releases
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
 
-## Adding your plugin to the community plugin list
 
-- Check https://github.com/obsidianmd/obsidian-releases/blob/master/plugin-review.md
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
 
-## How to use
 
-- Clone this repo.
-- `npm i` or `yarn` to install dependencies
-- `npm run dev` to start compilation in watch mode.
 
-## Manually installing the plugin
+# Version 2:
 
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
+  ## Functionality
 
-## Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
+  ### Be able to look at several calendars or event types and filter them down based on critera. 
+  - Several calendars can be part of a "Parent" Calendar. I.E. Parent: "Family".  Children: "Child 1", "Child 2", "Spouse", 
+  - Events will be able to be linked to multiple calendars i.e. Child 1 and Child 2 are both going to "Daytime Event".  "Daytime Event" will be linked to both calendars, and display if either calendar is selected **BUT** Will not show duplicate if both are toggled on to show.
 
-## Funding URL
 
-You can include funding URLs where people who use your plugin can financially support it.
+  ### Must Have Features
+  - Have Multiple calendars show in 1 view
+  - Drag and drop events for the calendars
+  - Resize events with dragging functionality
+  - Schedule event by clicking on the calendar
+  - Toggle calendars on and off
+  - Have multiple calendars linked to 1 event
+  - Search for events based on event criteria (Dr. Appointments are scheduled on each calendar individaully but toggle "Dr. Appointments will show all Dr. Appointments within identified calendars")
+  ## Existing plugins I'm going to use
+  ## Design of How I think it should function
+  ## Additonal Ideas as I think of them
 
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
 
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
-```
-
-If you have multiple URLs, you can also do:
-
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
-```
-
-## API Documentation
-
-See https://github.com/obsidianmd/obsidian-api
+  - To filter for specific items (i.e. Dr appointments) have a toggle section of #Tags that are linked or filter all events in all of the identified calendars 
+    - Make a section that gives options for what calendars to show which tags. 
