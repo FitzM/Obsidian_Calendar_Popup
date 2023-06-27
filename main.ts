@@ -1,13 +1,14 @@
-import {Plugin, Modal, WorkspaceLeaf, App } from 'obsidian';
-
+import {Plugin, Modal, WorkspaceLeaf, App, WorkspaceSidedock, WorkspaceSplit } from 'obsidian';
 export class ExampleModal extends Modal {
     constructor(app: App) {
       super(app);
     }
   
+  
     onOpen() {
       let { contentEl } = this;
-      contentEl.setText(" YOU HAVE AN AMAZING ASS!! 👀");
+      const contentText = ""
+      contentEl.setText(contentText);
       contentEl.addClass("my-modal");
     }
   
@@ -19,6 +20,9 @@ export class ExampleModal extends Modal {
 
 
 export default class TimeblockingEvent extends Plugin {
+  private WorkspaceSplit: WorkspaceSidedock | null = null;
+
+
     async onload() {
       await this.onLoad();
     }
@@ -30,23 +34,31 @@ export default class TimeblockingEvent extends Plugin {
       spanEvents.forEach((spanEvent) => {
         spanEvent.addEventListener('click', () => {
           spanEvent.style.backgroundColor = 'blue';
-          openRightLeaf();
+         // openRightPanel();
+          openRightLeaf('TickTick-Inbox.md');
           console.log('Did the Color change?!');
         });
       });
     }}
     
 
-    async function openRightLeaf(): Promise<void> {
-        const app = window.app; // Assuming the `App` object is available globally
-      
-        const newLeaf = await app.workspace.getRightLeaf(false); // Create a new leaf to the right
-        const modal = new ExampleModal(app);
-        //modal.open();
-        
 
+
+
+    // Function to open Right Leaf in Main document
+
+    async function openRightLeaf(filePath: string): Promise<void> {
+        const app = this.app; 
+      
+        const newLeaf = app.workspace.getRightLeaf(false); // Create a new leaf to the right
+        this.app.workspace.revealLeaf(newLeaf);
+        newLeaf.view.focus();
        if (newLeaf) {
-          // Use the new leaf to display content
-          newLeaf.setViewState({ type: 'file', state: { file: './Courtney.md' } });
+        newLeaf.setViewState({ type: "file", state: { file: filePath } });              
         } 
       }
+
+      openRightLeaf('/TickTick-Inbox');
+
+
+

@@ -13,7 +13,7 @@
 
 
   ### Must Have Features
-  - Drag and drop functionality
+  - Drag and drop functionality.
   - Event resize
   - drag events from a side panel into the day
   - 
