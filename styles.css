@@ -1,15 +1,41 @@
-.my-modal{
-  z-index: 999;
-  font-size: 42;
-  height: 250px;
-}
-#popupView{
-    height: 45px;
-    width: 200px;
-    background-color: rgba(0, 0, 0, 0.5); /* Example overlay color with transparency */
-    z-index: 9999;
-    position: fixed;
-  top: 50vh;
-  left: 50vw;
 
-};
+.view-content{
+  display: flexbox;
+  flex-wrap: wrap;
+  align-items: center;
+  
+}
+#itemCard {
+  display: flex;
+  height: 6%;
+  text-align: justify;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px; /* 5px rounded corners */
+  margin: 5px;
+  align-items:center;
+}
+input[type=checkbox]:checked + label#CardLabel{
+  text-decoration: line-through;
+}
+#CardCheckbox{
+  display: flex;
+  top: 4%;
+  bottom: 4%;
+  left: 10px;
+  margin-right: 20px;
+}
+#CardLabel{
+  padding: 4%;
+}
+
+/* On mouse-over, add a deeper shadow */
+#itemCard:hover {
+  box-shadow: 0 8px 10px 0 rgba(62, 97, 117, 0.253);
+}
+
+/* Add some padding inside the card container */
+#listOfCards {
+  display: inline;
+  padding: 2px 16px;
+}

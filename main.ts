@@ -1,64 +1,80 @@
-import {Plugin, Modal, WorkspaceLeaf, App, WorkspaceSidedock, WorkspaceSplit } from 'obsidian';
+import {Plugin, Modal, WorkspaceLeaf, App, WorkspaceSidedock, WorkspaceSplit, TFile, ItemView, WorkspaceRibbon} from 'obsidian';
+import * as React from 'react';
+import { createRoot } from "react-dom/client";
+import * as ReactDom from 'react-dom';
+import { render, unmountComponentAtNode } from 'react-dom';
+import CardsBox from './components/CardsBox';
+
+      // Test String Array
+let TestTodoList = ["Change the Laundry","Go to the store","Get Gas","Feed the Dogs","Give Courtney Massage"];
+
+//Load plugin and apply eventListener for opening view
+export default class TimeblockingEvent extends Plugin {
+    async onload() {
+     
+      this.registerView("my-custom-view", leaf => new MyCustomView(leaf))
+    
+      var calEvents = document.querySelectorAll<HTMLDivElement>('.fc-event-main');
+
+      calEvents.forEach((calEvent) => {
+       calEvent.addEventListener('click', () => {
+         calEvent.style.backgroundColor = 'blue';
+        const leaf = this.app.workspace.getRightLeaf(false);
+        this.app.workspace.revealLeaf(leaf);
+        leaf.setViewState({ type: "my-custom-view", active: true });  
+         console.log('Did the Color change?!');
+       });
+     }); 
+    }}
+
 export class ExampleModal extends Modal {
-    constructor(app: App) {
-      super(app);
-    }
-  
-  
-    onOpen() {
-      let { contentEl } = this;
-      const contentText = ""
-      contentEl.setText(contentText);
-      contentEl.addClass("my-modal");
-    }
-  
-    onClose() {
-      let { contentEl } = this;
-      contentEl.empty();
-    }
+  constructor(app: App) {
+    super(app);
   }
 
+  onOpen() {
+    let { contentEl } = this;
+    contentEl.setText("Look at me, I'm a modal! 👀");
+  }
 
-export default class TimeblockingEvent extends Plugin {
-  private WorkspaceSplit: WorkspaceSidedock | null = null;
+  onClose() {
+    let { contentEl } = this;
+    contentEl.empty();
+  }
+}
 
 
-    async onload() {
-      await this.onLoad();
-    }
-  
-    async onLoad() {
-      // Your other code here
-      var spanEvents = document.querySelectorAll<HTMLDivElement>('.fc-event-main');
-  
-      spanEvents.forEach((spanEvent) => {
-        spanEvent.addEventListener('click', () => {
-          spanEvent.style.backgroundColor = 'blue';
-         // openRightPanel();
-          openRightLeaf('TickTick-Inbox.md');
-          console.log('Did the Color change?!');
-        });
-      });
-    }}
+    export const VIEW_TYPE_EXAMPLE = "My-custom-view";
+    export class MyCustomView extends ItemView {
+      constructor(leaf: WorkspaceLeaf) {
+        
+        super(leaf);
+      }
     
-
-
-
-
-    // Function to open Right Leaf in Main document
-
-    async function openRightLeaf(filePath: string): Promise<void> {
-        const app = this.app; 
-      
-        const newLeaf = app.workspace.getRightLeaf(false); // Create a new leaf to the right
-        this.app.workspace.revealLeaf(newLeaf);
-        newLeaf.view.focus();
-       if (newLeaf) {
-        newLeaf.setViewState({ type: "file", state: { file: filePath } });              
-        } 
+      getViewType() {
+        return VIEW_TYPE_EXAMPLE;
+      }
+    
+      getDisplayText() {
+        return "Example view";
+      }
+    
+      async onOpen() {
+        const root = createRoot(this.containerEl.children[1]);
+        root.render(CardsBox(TestTodoList));
       }
 
-      openRightLeaf('/TickTick-Inbox');
+      async activateView() {
+        this.app.workspace.detachLeavesOfType(VIEW_TYPE_EXAMPLE);
+          
+        this.app.workspace.revealLeaf(
+          this.app.workspace.getLeavesOfType(VIEW_TYPE_EXAMPLE)[0]
+        );}
+
+      async onclose() {
+        // Nothing to clean up.
+      }
+    }
 
 
-
+    
